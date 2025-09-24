@@ -1,0 +1,199 @@
+# ------------------------------
+# Superset Production Config Example
+# Author: Abubakkar Khan (System Admin)
+# Last Updated: September 24, 2025
+# ------------------------------
+
+import os
+from datetime import timedelta
+from flask_appbuilder.security.manager import AUTH_DB
+from superset.config import *
+
+# ------------------------------
+# Core Configuration
+# ------------------------------
+# Basic application settings
+SUPERSET_ENV = os.getenv("SUPERSET_ENV", "production")
+APP_NAME = "Superset Production"
+APP_ICON = "/static/assets/images/superset-logo-horiz.png"
+DEFAULT_TIMEZONE = "Asia/Dhaka"
+
+# ------------------------------
+# Database Configuration
+# ------------------------------
+# PostgreSQL connection settings
+SQLALCHEMY_DATABASE_URI = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://superset:superset@db:5432/superset"
+)
+# Connection pool settings for high performance
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_ENGINE_OPTIONS = {
+    "pool_size": 10,           # Base number of connections
+    "max_overflow": 20,        # Maximum extra connections when pool is full
+    "pool_recycle": 1800,     # Recycle connections after 30 minutes
+    "pool_pre_ping": True     # Check connection validity before using
+}
+
+# ------------------------------
+# Redis & Caching
+# ------------------------------
+# Redis connection settings
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+REDIS_PORT = 6379
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "")
+REDIS_URL = f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0"
+
+# Main cache configuration
+CACHE_CONFIG = {
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_DEFAULT_TIMEOUT": 300,  # 5 minutes
+    "CACHE_KEY_PREFIX": "superset_",
+    "CACHE_REDIS_URL": REDIS_URL
+}
+
+# Celery task queue configuration
+CELERY_CONFIG = {
+    "broker_url": REDIS_URL,
+    "imports": ("superset.sql_lab",),
+    "result_backend": REDIS_URL,
+}
+
+# ------------------------------
+# Security Configuration
+# ------------------------------
+# Critical security settings
+SECRET_KEY = os.getenv("SECRET_KEY")  # Must be set in production
+
+# Authentication settings
+AUTH_TYPE = AUTH_DB
+WTF_CSRF_ENABLED = True       # Protection against CSRF attacks
+WTF_CSRF_TIME_LIMIT = 3600   # Token validity: 1 hour
+CSRF_ENABLED = True
+
+# Session security
+PERMANENT_SESSION_LIFETIME = timedelta(hours=4)  # Session timeout
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True  # Requires HTTPS
+SESSION_COOKIE_NAME = "__superset_production"
+
+# Security headers (Content Security Policy)
+TALISMAN_CONFIG = {
+    "force_https": True,
+    "frame_options": "SAMEORIGIN",
+    "content_security_policy": {
+        "default-src": ["'self'"],
+        "img-src": ["'self'", "data:", "https:"],
+        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        "style-src": ["'self'", "'unsafe-inline'"],
+        "connect-src": ["'self'", "https:"]
+    }
+}
+
+# ------------------------------
+# Feature Management
+# ------------------------------
+# Control available features
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": False,                    # Disable email reports
+    "DASHBOARD_NATIVE_FILTERS": True,          # Enable dashboard filters
+    "DASHBOARD_CROSS_FILTERS": True,           # Enable cross-filtering
+    "DASHBOARD_VISUALIZATION_SNAPSHOTS": False, # Disable snapshots
+    "SQLLAB_BACKEND_PERSISTENCE": False,       # Disable persistent queries
+    "SCHEDULED_QUERIES": False,                # Disable scheduling
+    "ESTIMATE_QUERY_COST": True,               # Enable cost estimation
+    "ENABLE_TEMPLATE_PROCESSING": False        # Disable Jinja templating
+}
+
+# ------------------------------
+# SQL Lab Settings
+# ------------------------------
+# Query execution limits
+SQLLAB_DEFAULT_TIMEOUT = 600       # Query timeout: 10 minutes
+SQLLAB_MAX_ROW = 100000           # Maximum rows returned
+SQLLAB_ASYNC_TIME_LIMIT_SEC = 600 # Async query timeout
+RESULTS_BACKEND = REDIS_URL
+
+# Query cost estimation format
+QUERY_COST_FORMATTERS_BY_ENGINE = {
+    "postgresql": 
+    lambda cost: f"Estimated cost: {cost:.2f}"
+}
+
+# ------------------------------
+# Performance Settings
+# ------------------------------
+# Caching configuration
+CACHE_DEFAULT_TIMEOUT = 300  # Global cache timeout: 5 minutes
+TABLE_NAMES_CACHE_CONFIG = {
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_KEY_PREFIX": "superset_table_names_",
+    "CACHE_DEFAULT_TIMEOUT": 300,
+    "CACHE_REDIS_URL": REDIS_URL
+}
+
+# ------------------------------
+# Logging Configuration
+# ------------------------------
+# Log formatting and levels
+LOG_FORMAT = "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
+LOG_LEVEL = "INFO"
+FLASK_LOG_LEVEL = "INFO"
+
+# ------------------------------
+# Upload Configuration
+# ------------------------------
+# File upload settings
+UPLOAD_FOLDER = "/opt/superset/uploads/"
+UPLOAD_MAX_SIZE = 100 * 1024 * 1024  # 100MB limit
+
+# ------------------------------
+# CORS Configuration
+# ------------------------------
+# Cross-Origin Resource Sharing
+ENABLE_CORS = True
+CORS_OPTIONS = {
+    "origins": [
+        "http://localhost:8090",
+        "http://localhost:3000"
+        # Add your domains here
+    ],
+    "supports_credentials": True,
+    "allow_headers": [
+        "Content-Type",
+        "X-CSRFToken",
+        "Authorization",
+        "Cache-Control"
+    ],
+    "expose_headers": [
+        "Content-Type",
+        "X-CSRFToken"
+    ],
+    "max_age": 1728000  # Cache preflight requests: 20 days
+}
+
+# ------------------------------
+# Monitoring & Debugging
+# ------------------------------
+# Statistics collection
+COLLECT_STATS_LOGGER_CONFIG = {
+    "handlers": ["console"],
+    "level": "INFO",
+}
+
+STATS_LOGGER_LOG_FORMAT = "[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s"
+
+# Production settings
+DEBUG = False
+FLASK_USE_RELOAD = False
+
+# Note: This is an example configuration file.
+# Make sure to:
+# 1. Set proper SECRET_KEY in production
+# 2. Configure proper CORS origins
+# 3. Update passwords and connection strings
+# 4. Adjust timeouts based on your needs
+# 5. Enable/disable features as required
+# 6. Set appropriate upload paths
+# 7. Configure proper SSL/TLS in production
