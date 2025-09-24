@@ -88,14 +88,14 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 
 ## Quick Start
 
-1. Clone the repository:
+1. Clone the repository to /opt/:
    ```bash
    # Using HTTPS
-   git clone https://github.com/NoneAvobeAll/-Superset-Production-Deployment-with-Docker-.git
+   sudo git clone https://github.com/NoneAvobeAll/Superset-Production-Deployment-with-Docker-.git /opt/superset
    # OR using SSH
-   git clone git@github.com:NoneAvobeAll/-Superset-Production-Deployment-with-Docker-.git
+   sudo git clone git@github.com:NoneAvobeAll/Superset-Production-Deployment-with-Docker-.git /opt/superset
    
-   cd -Superset-Production-Deployment-with-Docker-
+   cd /opt/superset
    ```
 
 2. Create and configure environment file:
@@ -117,6 +117,26 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    ```bash
    docker compose up -d
    ```
+
+4. Create an Admin User (Required):
+   ```bash
+   # Access the Superset container
+   docker exec -it superset bash
+
+   # Create an admin user inside the container
+   superset fab create-admin \
+      --username admin \
+      --firstname Superset \
+      --lastname Admin \
+      --email admin@superset.com \
+      --password your_secure_password
+   ```
+
+5. Access Superset:
+   - Open http://localhost:8090 in your browser
+   - Log in with:
+     - Username: admin
+     - Password: your_secure_password
 
 ### Docker Commands Reference
 
@@ -192,25 +212,7 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    docker images
    ```
 
-4. Create an Admin User:
-   ```bash
-   # Get the Superset container ID or use container name
-   docker exec -it superset bash
 
-   # Create an admin user inside the container
-   superset fab create-admin \
-      --username admin \
-      --firstname Superset \
-      --lastname Admin \
-      --email admin@superset.com \
-      --password your_secure_password
-   ```
-
-   Note: This is the only manual step required after deployment.
-
-6. Access Superset at http://localhost:8090 and log in with:
-   - Username: admin
-   - Password: your_secure_password
 
 ### Maintenance Commands
 
