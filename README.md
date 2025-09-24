@@ -3,6 +3,14 @@
 [![Apache License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Docker Pulls](https://img.shields.io/badge/docker-ready-blue.svg)](https://hub.docker.com)
 [![Production Ready](https://img.shields.io/badge/Status-Production%20Ready-green.svg)]()
+[![Superset Version](https://img.shields.io/badge/Superset-v5.0.1-brightgreen.svg)](https://superset.apache.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-7-red.svg)](https://redis.io/)
+[![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v2-blue.svg)](https://docs.docker.com/compose/)
+[![Security](https://img.shields.io/badge/Security-Hardened-purple.svg)]()
+[![Documentation](https://img.shields.io/badge/Documentation-Comprehensive-orange.svg)]()
+
+###### tags: `superset` `docker` `production` `enterprise` `analytics` `dashboard` `postgresql` `redis` `security` `monitoring` `high-availability` `scalable` `data-visualization` `bi-tools` `apache`
 
 A production-hardened Docker Compose setup for Apache Superset with enterprise-grade configurations, including PostgreSQL as the metadata database and Redis for caching and async task management.
 
