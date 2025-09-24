@@ -79,6 +79,7 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 ## Prerequisites
 - Docker Engine 24.x or later
 - Docker Compose v2.x or later
+- SSH key configured with GitHub (for cloning)
 - Minimum System Requirements:
   - CPU: 4 cores
   - RAM: 8GB
@@ -89,8 +90,8 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/superset-docker.git
-   cd superset-docker
+   git clone git@github.com:NoneAvobeAll/-Superset-Production-Deployment-with-Docker-.git
+   cd -Superset-Production-Deployment-with-Docker-
    ```
 
 2. Create and configure environment file:
@@ -112,10 +113,6 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    ```bash
    docker-compose up -d
    ```
-   The docker-compose file will automatically:
-   - Upgrade the database (`superset db upgrade`)
-   - Initialize Superset (`superset init`)
-   - Start the application
 
 4. Create an Admin User:
    ```bash
@@ -200,11 +197,8 @@ docker ps
 # Access Superset container
 sudo docker exec -it CONTAINER_ID bash
 
-# Common commands inside container
+# Common commands inside container 
 superset db upgrade                  # Run database migrations
-superset init                       # Initialize Superset
-superset fab create-admin          # Create another admin user
-superset load_examples             # Load example dashboards
 ```
 
 ## Configuration
