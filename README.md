@@ -30,11 +30,12 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 ```
 .
 ├── docker-compose.yml
+├── .env.example              # Template for environment variables
 ├── README.md
 ├── superset_config
-│   └── superset_config.py
+│   └── superset_config.py    # Custom Superset configurations
 └── superset_custom
-    └── Dockerfile
+    └── Dockerfile            # Custom Docker build instructions
 ```
 
 ### Components
@@ -92,36 +93,34 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    cd superset-docker
    ```
 
-2. Create environment file:
+2. Create and configure environment file:
    ```bash
    cp .env.example .env
    ```
-
-3. Configure environment variables:
+   The .env file requires three secure values:
    ```env
-   # PostgreSQL
-   POSTGRES_DB=superset
-   POSTGRES_USER=superset
-   POSTGRES_PASSWORD=<strong-password>
-
-   # Superset
-   SUPERSET_ENV=production
-   DATABASE_URL=postgresql+psycopg2://superset:<strong-password>@db:5432/superset
-   REDIS_HOST=redis
+   POSTGRES_PASSWORD=<your-secure-postgres-password>
+   REDIS_PASSWORD=<your-secure-redis-password>
+   SECRET_KEY=<your-generated-secret-key>
+   ```
+   Generate a secure SECRET_KEY using:
+   ```bash
+   openssl rand -base64 42
    ```
 
-4. Start the services:
+3. Start the services:
    ```bash
    docker-compose up -d
    ```
+   The docker-compose file will automatically:
+   - Upgrade the database (`superset db upgrade`)
+   - Initialize Superset (`superset init`)
+   - Start the application
 
-5. Create an Admin User:
+4. Create an Admin User:
    ```bash
-   # Get the Superset container ID
-   docker ps | grep superset
-
-   # Access the container (replace CONTAINER_ID with actual container ID)
-   sudo docker exec -it CONTAINER_ID bash
+   # Get the Superset container ID or use container name
+   docker exec -it superset bash
 
    # Create an admin user inside the container
    superset fab create-admin \
@@ -131,6 +130,8 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
       --email admin@superset.com \
       --password your_secure_password
    ```
+
+   Note: This is the only manual step required after deployment.
 
 6. Access Superset at http://localhost:8090 and log in with:
    - Username: admin
