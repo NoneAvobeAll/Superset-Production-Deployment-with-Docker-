@@ -120,6 +120,11 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    ```bash
    openssl rand -base64 42
    ```
+   Create and configure superset_config.py:
+   ```bash
+   cp superset_config/superset_config.py.example superset_config/superset_config.py
+   ```
+   Edit the `superset_config.py` file to set custom configurations.
 
 3. Start the services:
    ```bash
