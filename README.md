@@ -29,7 +29,7 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 ### Project Structure
 ```
 .
-├── docker-compose.yml
+├── docker-compose.yml        # Docker services configuration
 ├── .env.example              # Template for environment variables
 ├── README.md
 ├── superset_config
@@ -90,7 +90,11 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 
 1. Clone the repository:
    ```bash
+   # Using HTTPS
+   git clone https://github.com/NoneAvobeAll/-Superset-Production-Deployment-with-Docker-.git
+   # OR using SSH
    git clone git@github.com:NoneAvobeAll/-Superset-Production-Deployment-with-Docker-.git
+   
    cd -Superset-Production-Deployment-with-Docker-
    ```
 
@@ -111,7 +115,81 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 
 3. Start the services:
    ```bash
-   docker-compose up -d
+   docker compose up -d
+   ```
+
+### Docker Commands Reference
+
+1. Container Management:
+   ```bash
+   # View running containers
+   docker ps
+   
+   # View all containers (including stopped)
+   docker ps -a
+   
+   # View container logs
+   docker logs superset
+   docker logs superset-db
+   docker logs superset-redis
+   
+   # Follow logs in real-time
+   docker logs -f superset
+   
+   # Restart individual services
+   docker restart superset
+   docker restart superset-db
+   docker restart superset-redis
+   
+   # Stop all services
+   docker compose down
+   
+   # Stop and remove volumes (caution: this will delete data)
+   docker compose down -v
+   ```
+
+2. Resource Monitoring:
+   ```bash
+   # View container resource usage
+   docker stats
+   
+   # View container processes
+   docker top superset
+   
+   # Inspect container details
+   docker inspect superset
+   ```
+
+3. Data Management:
+   ```bash
+   # Backup PostgreSQL database
+   docker exec superset-db pg_dump -U superset > backup.sql
+   
+   # Copy files from container
+   docker cp superset:/app/superset_home/superset.db ./backup/
+   
+   # View volume information
+   docker volume ls
+   ```
+
+4. Container Access:
+   ```bash
+   # Access container shells
+   docker exec -it superset bash
+   docker exec -it superset-db bash
+   docker exec -it superset-redis bash
+   ```
+
+5. Service Updates:
+   ```bash
+   # Pull latest images
+   docker compose pull
+   
+   # Update and restart services
+   docker compose up -d --force-recreate
+   
+   # View image details
+   docker images
    ```
 
 4. Create an Admin User:
@@ -134,59 +212,27 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    - Username: admin
    - Password: your_secure_password
 
-## Running the Project
-
-### First Time Setup
-1. Ensure Docker and Docker Compose are installed:
-   ```bash
-   docker --version
-   docker-compose --version
-   ```
-
-2. Clone and navigate to the project:
-   ```bash
-   git clone https://github.com/your-repo/superset-docker.git
-   cd superset-docker
-   ```
-
-3. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env file with your preferred text editor
-   nano .env
-   ```
-
-4. Start the application:
-   ```bash
-   docker-compose up -d
-   ```
-
-5. Monitor the startup:
-   ```bash
-   docker-compose logs -f
-   ```
-
 ### Maintenance Commands
 
 1. Check container status:
    ```bash
-   docker-compose ps
+   docker compose ps
    ```
 
 2. Restart services:
    ```bash
-   docker-compose restart
+   docker compose restart
    ```
 
 3. Stop all services:
    ```bash
-   docker-compose down
+   docker compose down
    ```
 
 4. Update containers:
    ```bash
-   docker-compose pull
-   docker-compose up -d
+   docker compose pull
+   docker compose up -d
    ```
 
 ### Accessing Container Shell
@@ -204,15 +250,13 @@ superset db upgrade                  # Run database migrations
 ## Configuration
 
 ### Environment Variables
-Detailed list of configurable environment variables:
+Required environment variables in `.env`:
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| POSTGRES_DB | Database name | superset | Yes |
-| POSTGRES_USER | Database user | superset | Yes |
-| POSTGRES_PASSWORD | Database password | - | Yes |
-| SUPERSET_ENV | Environment type | production | Yes |
-| REDIS_HOST | Redis hostname | redis | Yes |
+| Variable | Description | Example |
+|----------|-------------|---------|
+| POSTGRES_PASSWORD | PostgreSQL database password | StrongPostgresPassword123 |
+| REDIS_PASSWORD | Redis password | StrongRedisPassword123 |
+| SECRET_KEY | Superset secret key | Generated using `openssl rand -base64 42` |
 
 ### Custom Configurations
 - Timezone: Asia/Dhaka
