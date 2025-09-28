@@ -38,7 +38,6 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
 ```
 .
 ├── docker-compose.yml        # Docker services configuration
-├── .env.example              # Template for environment variables
 ├── README.md
 ├── superset_config
 │   └── superset_config.py    # Custom Superset configurations
@@ -103,20 +102,9 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    # OR using SSH
    sudo git clone git@github.com:NoneAvobeAll/Superset-Production-Deployment-with-Docker-.git /opt/superset
    
-   cd /opt/superset
-   ```
+   cd /opt/superset/
 
-2. Create and configure environment file:
-   ```bash
-   cp .env.example .env
-   ```
-   The .env file requires three secure values:
-   ```env
-   POSTGRES_PASSWORD=<your-secure-postgres-password>
-   REDIS_PASSWORD=<your-secure-redis-password>
-   SECRET_KEY=<your-generated-secret-key>
-   ```
-   Generate a secure SECRET_KEY using:
+2.  Generate a secure SECRET_KEY using:
    ```bash
    openssl rand -base64 42
    ```
