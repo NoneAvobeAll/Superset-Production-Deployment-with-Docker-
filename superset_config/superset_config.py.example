@@ -40,7 +40,7 @@ CACHE_CONFIG = {
 FEATURE_FLAGS = {
     "ALERT_REPORTS": True,            # Disable alerting for untrusted users
     "DASHBOARD_NATIVE_FILTERS": True,  # Keep dashboards functional
-    "SQLLAB_BACKEND_PERSISTENCE": False  # Restrict SQL Lab persistent queries
+    "SQLLAB_BACKEND_PERSISTENCE": False,  # Restrict SQL Lab persistent queries
     "EMBEDDED_SUPERSET": True, 
     "ALLOW_FILE_UPLOAD": True,
 }

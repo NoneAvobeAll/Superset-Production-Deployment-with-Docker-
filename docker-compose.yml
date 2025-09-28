@@ -1,6 +1,6 @@
 services:
   superset:
-    image: abubakkarkhanfazlarabbi/superset:5.0.1-custom
+    image: abubakkarkhanfazlarabbi/superset:5.0.0-custom
     container_name: superset
     user: "superset"
     restart: always
@@ -9,8 +9,6 @@ services:
       options:
         max-size: "50m"
         max-file: "5"
-    env_file:
-      - .env
     volumes:
       - superset_home:/app/superset_home:rw
       - ./superset_config:/app/pythonpath:ro
@@ -46,8 +44,10 @@ services:
       options:
         max-size: "50m"
         max-file: "5"
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_DB=superset
+      - POSTGRES_USER=superset
+      - POSTGRES_PASSWORD=superset
     volumes:
       - superset_db_data:/var/lib/postgresql/data
     healthcheck:
