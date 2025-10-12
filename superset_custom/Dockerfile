@@ -4,7 +4,7 @@
 # Based on Apache Superset 4.0.2 (more stable with drivers)
 # ------------------------------
 
-FROM apache/superset:4.0.2
+FROM apache/superset:5.0.0
 
 # Switch to root for installations
 USER root
@@ -24,10 +24,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install essential Python database drivers and production packages
-RUN pip install --no-cache-dir \
+RUN . /app/.venv/bin/activate && \
+      uv pip install \
       psycopg2-binary \
       PyMySQL \
       pymssql \
+      openpyxl \
       redis \
       flask-cors \
       gunicorn \
