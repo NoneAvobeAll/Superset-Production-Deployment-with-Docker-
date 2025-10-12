@@ -40,7 +40,7 @@ else:
 
 
 # 5. restart docker containter 
-
+#-------------------------------------------------------
 
 #6. If needed run the following to ensure critical permissions are present for filters to work
 # 6.1. docker exec -it <superset-container-name> bash
@@ -99,3 +99,5 @@ else:
     print(f"Guest role now has {len(guest_role.permissions)} total permissions")
 
 exit()
+
+# 6.4. restart docker containter
