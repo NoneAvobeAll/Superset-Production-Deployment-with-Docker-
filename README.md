@@ -112,7 +112,7 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    ```bash
    cp superset_config/superset_config.py.example superset_config/superset_config.py
    ```
-   Edit the `superset_config.py` file to set custom configurations.
+   Edit the `superset_config.py` file to set custom configurations such as secret key, timezone, cache timeout, SQL Lab timeout, and maximum log file size .
 
 3. Start the services:
    ```bash
@@ -138,6 +138,22 @@ A production-hardened Docker Compose setup for Apache Superset with enterprise-g
    - Log in with:
      - Username: admin
      - Password: your_secure_password
+
+
+6. Guest role permissions:
+- Read access to all charts and dashboards
+- JSON exploration capabilities
+- Data sampling
+- Database access (read-only)
+
+To apply the guest role permissions, execute scripts/guestRole.py inside container, paste the script inside container shell. 
+```bash
+ sudo docker exec -it CONTAINER_ID bash
+ superset shell
+ # Paste the script content here
+ exit()
+```
+
 
 ### Docker Commands Reference
 
@@ -248,20 +264,6 @@ sudo docker exec -it CONTAINER_ID bash
 
 # Common commands inside container 
 superset db upgrade                  # Run database migrations
-```
-
-## Guest role permissions
-- Read access to all charts and dashboards
-- JSON exploration capabilities
-- Data sampling
-- Database access (read-only)
-
-To apply the guest role permissions, execute scripts/guestRole.py inside container, paste the script inside container shell. 
-```bash
- sudo docker exec -it CONTAINER_ID bash
- superset shell
- # Paste the script content here
- exit()
 ```
 
 ### Custom Configurations
