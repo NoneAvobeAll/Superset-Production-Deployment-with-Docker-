@@ -256,7 +256,13 @@ superset db upgrade                  # Run database migrations
 - Data sampling
 - Database access (read-only)
 
- execute guestRole.py inside container, paste the script inside container shell.
+To apply the guest role permissions, execute scripts/guestRole.py inside container, paste the script inside container shell. 
+```bash
+ sudo docker exec -it CONTAINER_ID bash
+ superset shell
+ # Paste the script content here
+ exit()
+```
 
 ### Custom Configurations
 - Timezone: Asia/Dhaka
@@ -344,5 +350,5 @@ Detailed recovery steps for various failure scenarios
 Apache License 2.0 - See LICENSE file for details
 
 ---
-Last updated: September 24, 2025  
+Last updated: October 12, 2025  
 Maintained by: Abubakkar Khan (System Admin)
