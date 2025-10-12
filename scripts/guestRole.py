@@ -42,6 +42,13 @@ else:
 # 5. restart docker containter 
 
 
+#6. If needed run the following to ensure critical permissions are present for filters to work
+# 6.1. docker exec -it <superset-container-name> bash
+# 6.2.  superset shell
+# 6.3. paste it and exit.
+
+
+
 from superset import db, security_manager
 from flask_appbuilder.security.sqla.models import Role
 
