@@ -250,16 +250,13 @@ sudo docker exec -it CONTAINER_ID bash
 superset db upgrade                  # Run database migrations
 ```
 
-## Configuration
+## Guest role permissions
+- Read access to all charts and dashboards
+- JSON exploration capabilities
+- Data sampling
+- Database access (read-only)
 
-### Environment Variables
-Required environment variables in `.env`:
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| POSTGRES_PASSWORD | PostgreSQL database password | StrongPostgresPassword123 |
-| REDIS_PASSWORD | Redis password | StrongRedisPassword123 |
-| SECRET_KEY | Superset secret key | Generated using `openssl rand -base64 42` |
+ execute guestRole.py inside container, paste the script inside container shell.
 
 ### Custom Configurations
 - Timezone: Asia/Dhaka
