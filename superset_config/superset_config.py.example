@@ -15,6 +15,9 @@ SUPERSET_ENV = os.getenv("SUPERSET_ENV", "production")
 APP_NAME = "Superset Production"
 APP_ICON = "/static/assets/images/superset-logo-horiz.png"
 DEFAULT_TIMEZONE = "Asia/Dhaka"
+SUPERSET_WEBSERVER_ADDRESS = '0.0.0.0'
+SUPERSET_WEBSERVER_PORT = 8090
+
 # ------------------------------
 # Database
 # ------------------------------
