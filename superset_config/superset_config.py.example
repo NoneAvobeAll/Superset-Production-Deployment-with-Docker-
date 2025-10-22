@@ -17,6 +17,7 @@ APP_ICON = "/static/assets/images/superset-logo-horiz.png"
 DEFAULT_TIMEZONE = "Asia/Dhaka"
 SUPERSET_WEBSERVER_ADDRESS = '0.0.0.0'
 SUPERSET_WEBSERVER_PORT = 8090
+SECRET_KEY = "w8mAAA5QJNopoylCGCjW5Jlwmy5L5dlyZHAz5OqtTDPXqwNIqkakZhA"
 
 # ------------------------------
 # Database
@@ -69,7 +70,6 @@ CORS_OPTIONS = {
 # Disable exposed endpoints
 ENABLE_PROXY_FIX = True
 WTF_CSRF_ENABLED = False  # Protect against CSRF
-SECRET_KEY = os.getenv("SUPERSET_SECRET_KEY", "fallback-secret")
 PUBLIC_ROLE_LIKE = "Gamma"
 
 # ------------------------------
@@ -83,7 +83,7 @@ LOG_LEVEL = "INFO"
 # Only trusted roles can edit charts
 # Enforce via Superset UI: assign 'Alpha' or custom admin role
 # ------- Upload Path
-UPLOAD_FOLDER ="/home/ubuntu/"
+UPLOAD_FOLDER ="/home/ubuntu/uploads"
 
 # ------------------------------
 # Note: Session Timeout
