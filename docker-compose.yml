@@ -23,13 +23,14 @@ services:
       /bin/bash -c "
       superset db upgrade &&
       superset init &&
-      superset run -h 0.0.0.0 -p 8088
+      superset run -h 0.0.0.0 -p 8088 --with-threads
       "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
       interval: 1m
       timeout: 15s
       retries: 5
+      start_period: 120s
     cap_drop:
       - ALL
     security_opt:
@@ -45,9 +46,9 @@ services:
         max-size: "50m"
         max-file: "5"
     environment:
-      - POSTGRES_DB=superset
-      - POSTGRES_USER=superset
-      - POSTGRES_PASSWORD=superset
+      POSTGRES_DB: superset
+      POSTGRES_USER: superset
+      POSTGRES_PASSWORD: superset
     volumes:
       - superset_db_data:/var/lib/postgresql/data
     healthcheck:

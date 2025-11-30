@@ -28,6 +28,7 @@ RUN . /app/.venv/bin/activate && \
       uv pip install \
       psycopg2-binary \
       PyMySQL \
+      mysqlclient \
       pymssql \
       openpyxl \
       redis \
@@ -46,8 +47,6 @@ RUN apt-get purge -y \
       gcc \
       g++ \
       libpq-dev \
-      default-libmysqlclient-dev \
-      freetds-dev \
       pkg-config && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -72,3 +71,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 # Start Superset
 CMD ["superset", "run", "-h", "0.0.0.0", "-p", "8088"]
+
