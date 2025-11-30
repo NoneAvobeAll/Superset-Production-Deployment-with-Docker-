@@ -1,6 +1,6 @@
 services:
   superset:
-    image: abubakkarkhanfazlarabbi/superset:5.0.0-prod
+    image: abubakkarkhanfazlarabbi/superset:latest
     container_name: superset
     user: "superset"
     restart: always
