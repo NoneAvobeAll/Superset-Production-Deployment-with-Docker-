@@ -71,7 +71,8 @@ CORS_OPTIONS = {
 ENABLE_PROXY_FIX = True
 WTF_CSRF_ENABLED = False  # Protect against CSRF
 PUBLIC_ROLE_LIKE = "Gamma"
-
+#SUPERSET_WEBSERVER_DOMAINS = ['test.domain.com'] # enable if using domain
+TALISMAN_ENABLED=False
 # ------------------------------
 # Logging
 # ------------------------------
