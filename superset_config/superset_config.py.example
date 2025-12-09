@@ -18,7 +18,6 @@ DEFAULT_TIMEZONE = "Asia/Dhaka"
 SUPERSET_WEBSERVER_ADDRESS = '0.0.0.0'
 SUPERSET_WEBSERVER_PORT = 8090
 SECRET_KEY = "w8mAAA5QJNopoylCGCjW5Jlwmy5L5dlyZHAz5OqtTDPXqwNIqkakZhA"
-
 # ------------------------------
 # Database
 # ------------------------------
@@ -26,7 +25,8 @@ SQLALCHEMY_DATABASE_URI = os.getenv(
     "DATABASE_URL",
     "postgresql+psycopg2://superset:superset@db:5432/superset"
 )
-
+# For synchronous queries (dashboards/charts)
+SUPERSET_WEBSERVER_TIMEOUT = int(timedelta(minutes=5).total_seconds())  # 300 seconds
 # ------------------------------
 # Caching / Redis
 # ------------------------------
@@ -52,6 +52,14 @@ HTTP_HEADERS = {'X-Frame-Options': 'ALLOWALL'}
 # Limit SQL Lab usage
 SQLLAB_DEFAULT_TIMEOUT = 600  # Max execution time (seconds)
 SQLLAB_CTAS_NO_LIMIT = True  # Prevent excessive CTAS queries
+SQLLAB_TIMEOUT = 300  # Query timeout (seconds)
+# For async queries
+SQLLAB_ASYNC_TIME_LIMIT_SEC = 300
+# For async queries
+SQLLAB_ASYNC_TIME_LIMIT_SEC = 300
+
+# Database query timeout
+SUPERSET_SQLALCHEMY_TIMEOUT = 300  # in seconds
 
 # ------------------------------
 # Cross-Origin Requests
@@ -71,8 +79,7 @@ CORS_OPTIONS = {
 ENABLE_PROXY_FIX = True
 WTF_CSRF_ENABLED = False  # Protect against CSRF
 PUBLIC_ROLE_LIKE = "Gamma"
-#SUPERSET_WEBSERVER_DOMAINS = ['test.domain.com'] # enable if using domain
-TALISMAN_ENABLED=False
+
 # ------------------------------
 # Logging
 # ------------------------------
