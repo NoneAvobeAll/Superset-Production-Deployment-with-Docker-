@@ -1,7 +1,7 @@
 services:
   superset:
-    image: abubakkarkhanfazlarabbi/superset:latest
-    container_name: superset
+    image: abubakkarkhanfazlarabbi/superset:5.0.0-test
+    container_name: superset-9000
     user: "superset"
     restart: always
     logging:
@@ -13,7 +13,7 @@ services:
       - superset_home:/app/superset_home:rw
       - ./superset_config:/app/pythonpath:ro
     ports:
-      - "8090:8088"
+      - "9000:8088"
     depends_on:
       db:
         condition: service_healthy
@@ -35,10 +35,10 @@ services:
       - ALL
     security_opt:
       - no-new-privileges:true
-
+ 
   db:
     image: postgres:15
-    container_name: superset-db
+    container_name: superset-db-9000
     restart: always
     logging:
       driver: "json-file"
@@ -56,10 +56,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
+ 
   redis:
     image: redis:7
-    container_name: superset-redis
+    container_name: superset-redis-9000
     restart: always
     logging:
       driver: "json-file"
@@ -73,7 +73,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
+ 
 volumes:
   superset_db_data:
   redis_data:
