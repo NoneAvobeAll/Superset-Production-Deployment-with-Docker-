@@ -93,3 +93,13 @@ PERMANENT_SESSION_LIFETIME = timedelta(hours=4) # 4 hours session timeout
 SESSION_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = False  #  True if serving over HTTPS
+
+#---------------------------
+# Float values
+#---------------------------
+D3_FORMAT = {
+    "decimal": ",",
+    "thousands": ".",
+    "currency": ["€", ""],
+    "grouping": [3],
+}
